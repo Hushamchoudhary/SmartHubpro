@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMART HUB — All-in-One Workspace</title>
+<style>
+:root{--bg:#081225;--panel:#111f38;--panel2:#172946;--text:#eef5ff;--muted:#9db0cb;--accent:#6ee7f9;--accent2:#8b7cff;--line:rgba(255,255,255,.1);--shadow:0 18px 50px rgba(0,0,0,.28)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 10% 0%,#18345b 0,transparent 34%),var(--bg);color:var(--text);min-height:100vh;transition:.25s}
+body.light{--bg:#eef4fb;--panel:#fff;--panel2:#f4f7fc;--text:#15233b;--muted:#61718a;--line:rgba(20,40,70,.13);--shadow:0 15px 40px rgba(25,45,75,.12);background:radial-gradient(circle at 10% 0%,#d9e9ff 0,transparent 35%),var(--bg)}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0}
+.app{max-width:1450px;margin:auto;padding:22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:900;letter-spacing:.5px}.logo{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#061326;font-size:22px;box-shadow:0 8px 25px #6ee7f933}
+.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.btn,.iconbtn{padding:10px 14px;border-radius:12px;background:var(--panel2);color:var(--text);border:1px solid var(--line)}.btn.primary{background:linear-gradient(120deg,#62dff1,#9585ff);color:#081225;font-weight:800;border:0}.btn.danger{background:#a92f4b;color:white}.iconbtn{width:42px;height:42px;padding:0;font-size:18px}
+.layout{display:grid;grid-template-columns:245px 1fr;gap:20px}.sidebar,.main{background:var(--panel);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}.sidebar{padding:16px;height:max-content;position:sticky;top:16px}.side-label{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:1.5px;margin:12px 10px}.navbtn{width:100%;text-align:left;padding:12px 13px;border-radius:12px;color:var(--muted);background:transparent;margin:3px 0;font-weight:650}.navbtn:hover,.navbtn.active{background:linear-gradient(100deg,#6ee7f922,#8b7cff22);color:var(--text)}.navbtn span{display:inline-block;width:28px}
+.main{padding:24px;min-height:720px}.page{display:none}.page.active{display:block}.welcome{padding:26px;border-radius:19px;background:linear-gradient(120deg,#153a60,#433b80);margin-bottom:20px;position:relative;overflow:hidden}.welcome:after{content:"✦";position:absolute;right:35px;top:2px;font-size:120px;opacity:.12}.welcome h1{font-size:clamp(25px,4vw,38px);margin:0 0 8px}.welcome p{color:#d3e3ff;margin:0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:18px 0}.stat,.toolcard,.box{background:var(--panel2);border:1px solid var(--line);border-radius:17px;padding:17px}.stat strong{display:block;font-size:25px;margin-top:6px}.muted{color:var(--muted)}.toolgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.toolcard{cursor:pointer;transition:.2s;text-align:left;color:var(--text);min-height:135px}.toolcard:hover{transform:translateY(-4px);border-color:#6ee7f9aa;box-shadow:0 12px 28px #0002}.toolicon{font-size:27px;margin-bottom:10px}.toolcard h3{margin:0 0 5px}.toolcard p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+h2{margin:0 0 7px}h3{margin-top:0}.pagehead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.field,textarea,select{background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:11px;padding:11px 12px;outline:none;max-width:100%}.field:focus,textarea:focus,select:focus{border-color:var(--accent)}textarea{width:100%;min-height:130px;resize:vertical}.wide{width:100%}.list{display:grid;gap:10px;margin-top:14px}.item{background:var(--panel2);border:1px solid var(--line);padding:13px;border-radius:13px;display:flex;justify-content:space-between;gap:12px;align-items:center}.item small{color:var(--muted)}.item-actions{display:flex;gap:7px;flex-wrap:wrap}.tiny{padding:7px 10px;border-radius:9px;background:var(--panel);color:var(--text);border:1px solid var(--line)}
+.calc{max-width:540px}.calcdisplay{width:100%;font-size:26px;text-align:right;padding:18px;margin-bottom:12px}.calcgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.calcgrid button{padding:15px 5px;border-radius:12px;background:var(--panel2);color:var(--text);border:1px solid var(--line);font-weight:750}.calcgrid button:hover{border-color:var(--accent)}.calcgrid .equal{background:linear-gradient(120deg,#62dff1,#9585ff);color:#081225}.calcgrid .clear{color:#ff9eae}.history{margin-top:15px}
+.profilebox{display:flex;align-items:center;gap:14px;padding:17px;background:var(--panel2);border-radius:15px}.avatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#071326;font-size:23px;font-weight:900}
+.overlay{position:fixed;inset:0;background:#020817bb;display:none;place-items:center;padding:18px;z-index:20}.overlay.show{display:grid}.dialog{width:min(520px,100%);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow);max-height:90vh;overflow:auto}.dialog h2{margin-bottom:15px}.dialog .field{width:100%;margin:6px 0 12px}.dialog-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}.note-editor{display:grid;gap:10px}.note-meta{display:flex;gap:8px;flex-wrap:wrap}.empty{padding:25px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+footer{text-align:center;color:var(--muted);padding:20px;font-size:12px}.tag{display:inline-block;padding:4px 8px;border-radius:30px;background:#6ee7f922;color:var(--accent);font-size:11px}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;gap:5px;overflow:auto;padding:9px}.side-label{display:none}.navbtn{white-space:nowrap;width:auto}.navbtn span{width:auto;margin-right:6px}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.app{padding:12px}.main{padding:16px}.toolgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.toolcard{padding:13px;min-height:130px}.welcome{padding:20px}.stats{gap:8px}.stat{padding:12px}.calcgrid{gap:6px}.calcgrid button{padding:13px 2px;font-size:13px}.topbar{align-items:flex-start}.brand{font-size:19px}}
+@media(max-width:390px){.toolgrid{grid-template-columns:1fr}.actions .btn{padding:9px 10px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="logo">✦</div><div>SMART HUB <span class="tag">PRO</span></div></div>
+  <div class="actions">
+    <button class="iconbtn" id="themeBtn" title="Change theme" onclick="toggleTheme()">☀</button>
+    <button class="btn" onclick="openProfile()">👤 <span id="userLabel">Profile</span></button>
+    <button class="btn primary" onclick="openAuth()">Login / Sign up</button>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar">
+  <div class="side-label">WORKSPACE</div>
+  <button class="navbtn active" data-page="home" onclick="showPage('home',this)"><span>⌂</span>Dashboard</button>
+  <button class="navbtn" data-page="tools" onclick="showPage('tools',this)"><span>▦</span>All Tools</button>
+  <button class="navbtn" data-page="notes" onclick="showPage('notes',this)"><span>▤</span>My Notes</button>
+  <button class="navbtn" data-page="calculator" onclick="showPage('calculator',this)"><span>∑</span>Scientific Calculator</button>
+  <button class="navbtn" data-page="profile" onclick="showPage('profile',this)"><span>◉</span>Profile</button>
+  <div class="side-label">ABOUT</div>
+  <button class="navbtn" onclick="showAbout()"><span>ⓘ</span>About Smart Hub</button>
+</aside>
+<main class="main">
+<section class="page active" id="home">
+  <div class="welcome"><h1 id="welcomeTitle">Your digital workspace.</h1><p>Notes, calculations and useful tools — all together in one place.</p></div>
+  <div class="stats">
+    <div class="stat"><span class="muted">Saved notes</span><strong id="statNotes">0</strong></div>
+    <div class="stat"><span class="muted">Completed tasks</span><strong id="statDone">0</strong></div>
+    <div class="stat"><span class="muted">Calculator history</span><strong id="statCalc">0</strong></div>
+    <div class="stat"><span class="muted">Workspace</span><strong>Ready</strong></div>
+  </div>
+  <div class="pagehead"><div><h2>Quick access</h2><div class="muted">Open any tool with one click.</div></div></div>
+  <div class="toolgrid" id="quickGrid"></div>
+</section>
+<section class="page" id="tools">
+  <div class="pagehead"><div><h2>All tools</h2><div class="muted">Choose a tool to get started.</div></div><input class="field" id="toolSearch" placeholder="Search tools..." oninput="filterTools()"></div>
+  <div class="toolgrid" id="allGrid"></div>
+</section>
+<section class="page" id="notes">
+  <div class="pagehead"><div><h2>Advanced Notes</h2><div class="muted">Create, edit, organise and delete your notes.</div></div><button class="btn primary" onclick="newNote()">＋ New note</button></div>
+  <div class="row"><select id="folderFilter" onchange="renderNotes()"><option value="All">All folders</option><option>Personal</option><option>School</option><option>Ideas</option><option>Projects</option></select><input class="field" id="noteSearch" placeholder="Search notes..." oninput="renderNotes()"></div>
+  <div class="list" id="notesList"></div>
+</section>
+<section class="page" id="calculator">
+  <div class="pagehead"><div><h2>Scientific Calculator</h2><div class="muted">Basic + scientific operations with history.</div></div><button class="btn" onclick="clearHistory()">Clear history</button></div>
+  <div class="calc box">
+    <input class="field calcdisplay" id="calcDisplay" value="0" readonly>
+    <div class="calcgrid" id="calcKeys">
+      <button class="clear" onclick="calcClear()">AC</button><button onclick="calcBack()">⌫</button><button onclick="calcAdd('(')">(</button><button onclick="calcAdd(')')">)</button><button onclick="calcAdd('/')">÷</button>
+      <button onclick="calcAdd('sin(')">sin</button><button onclick="calcAdd('cos(')">cos</button><button onclick="calcAdd('tan(')">tan</button><button onclick="calcAdd('sqrt(')">√</button><button onclick="calcAdd('*')">×</button>
+      <button onclick="calcAdd('7')">7</button><button onclick="calcAdd('8')">8</button><button onclick="calcAdd('9')">9</button><button onclick="calcAdd('^')">xʸ</button><button onclick="calcAdd('-')">−</button>
+      <button onclick="calcAdd('4')">4</button><button onclick="calcAdd('5')">5</button><button onclick="calcAdd('6')">6</button><button onclick="calcAdd('log(')">log</button><button onclick="calcAdd('+')">+</button>
+      <button onclick="calcAdd('1')">1</button><button onclick="calcAdd('2')">2</button><button onclick="calcAdd('3')">3</button><button onclick="calcAdd('ln(')">ln</button><button class="equal" onclick="calcEvaluate()">=</button>
+      <button onclick="calcAdd('0')">0</button><button onclick="calcAdd('.')">.</button><button onclick="calcAdd('pi')">π</button><button onclick="calcAdd('%')">%</button><button onclick="calcAdd('e')">e</button>
+    </div>
+    <div class="history"><h3>Calculation history</h3><div id="calcHistory" class="list"></div></div>
+  </div>
+</section>
+<section class="page" id="profile">
+  <div class="pagehead"><div><h2>Profile dashboard</h2><div class="muted">Your local workspace profile.</div></div><button class="btn primary" onclick="openProfile()">Edit profile</button></div>
+  <div class="profilebox"><div class="avatar" id="bigAvatar">S</div><div><h2 id="profileName">Student</h2><div class="muted" id="profileEmail">No email added</div><span class="tag">LOCAL PROFILE</span></div></div>
+  <div class="box" style="margin-top:15px"><h3>Workspace information</h3><p class="muted">Your notes, tasks and preferences are stored in this browser on this device. Use the same browser profile to see them again.</p><button class="btn" onclick="exportData()">Export my data</button> <button class="btn danger" onclick="resetWorkspace()">Reset workspace</button></div>
+</section>
+<section class="page" id="about"><h2>About Smart Hub</h2><p class="muted">Smart Hub is a single-page learning project made with HTML, CSS and JavaScript. It includes a dashboard, tools, notes, a scientific calculator, theme settings and a local profile.</p><p class="muted">Important: the demo login/profile is not secure authentication. Do not use a real password or store private information here. A real online account system needs a secure backend.</p></section>
+</main>
+</div>
+<footer>SMART HUB PRO · Built for learning · Your data stays in this browser</footer>
+</div>
+
+<div class="overlay" id="dialogOverlay" onclick="if(event.target===this)closeDialog()"><div class="dialog" id="dialog"></div></div>
+<script>
+const tools=[
+ {id:'calculator',icon:'🧮',name:'Scientific Calculator',desc:'Arithmetic, powers, roots and trigonometry',page:'calculator'},
+ {id:'notes',icon:'📝',name:'Advanced Notes',desc:'Create, edit, search and organise notes',page:'notes'},
+ {id:'todo',icon:'✅',name:'To-do List',desc:'Track your daily tasks',page:'tools'},
+ {id:'clock',icon:'🕒',name:'Digital Clock',desc:'Live time and date',page:'tools'},
+ {id:'counter',icon:'🔤',name:'Word Counter',desc:'Count words and characters',page:'tools'},
+ {id:'converter',icon:'🔁',name:'Unit Converter',desc:'Convert common units',page:'tools'},
+ {id:'password',icon:'🔐',name:'Password Generator',desc:'Generate a random practice password',page:'tools'},
+ {id:'qr',icon:'▦',name:'QR Code Maker',desc:'Create a QR code from text or a link',page:'tools'}
+];
+let calcExpr='',calcHistory=JSON.parse(localStorage.getItem('hubCalcHistory')||'[]');
+let notes=JSON.parse(localStorage.getItem('hubNotesV3')||'[]');
+let tasks=JSON.parse(localStorage.getItem('hubTasksV3')||'[]');
+let profile=JSON.parse(localStorage.getItem('hubProfile')||'{"name":"Student","email":""}');
+let editingNote=null;
+const $=id=>document.getElementById(id);
+function saveAll(){localStorage.setItem('hubNotesV3',JSON.stringify(notes));localStorage.setItem('hubTasksV3',JSON.stringify(tasks));localStorage.setItem('hubCalcHistory',JSON.stringify(calcHistory));localStorage.setItem('hubProfile',JSON.stringify(profile));updateStats()}
+function showPage(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');else{let b=document.querySelector('[data-page="'+id+'"]');if(b)b.classList.add('active')}if(id==='notes')renderNotes();if(id==='calculator')renderHistory()}
+function renderCards(){let cards=tools.map(t=>`<button class="toolcard" onclick="launchTool('${t.id}')"><div class="toolicon">${t.icon}</div><h3>${t.name}</h3><p>${t.desc}</p></button>`).join('');$('quickGrid').innerHTML=cards;$('allGrid').innerHTML=cards}
+function filterTools(){let q=$('toolSearch').value.toLowerCase();$('allGrid').innerHTML=tools.filter(t=>(t.name+' '+t.desc).toLowerCase().includes(q)).map(t=>`<button class="toolcard" onclick="launchTool('${t.id}')"><div class="toolicon">${t.icon}</div><h3>${t.name}</h3><p>${t.desc}</p></button>`).join('')||'<div class="empty">No matching tools.</div>'}
+function launchTool(id){if(id==='calculator'||id==='notes'){showPage(id);return}showPage('tools');if(id==='todo')openTodo();if(id==='clock')openClock();if(id==='counter')openCounter();if(id==='converter')openConverter();if(id==='password')openPassword();if(id==='qr')openQR()}
+function updateStats(){$('statNotes').textContent=notes.length;$('statDone').textContent=tasks.filter(t=>t.done).length;$('statCalc').textContent=calcHistory.length;$('userLabel').textContent=profile.name||'Profile';$('welcomeTitle').textContent='Welcome, '+(profile.name||'Student')+'.';$('profileName').textContent=profile.name||'Student';$('profileEmail').textContent=profile.email||'No email added';$('bigAvatar').textContent=(profile.name||'S').trim().charAt(0).toUpperCase()}
+function toggleTheme(){document.body.classList.toggle('light');localStorage.setItem('hubTheme',document.body.classList.contains('light')?'light':'dark');$('themeBtn').textContent=document.body.classList.contains('light')?'🌙':'☀'}
+function showAbout(){showPage('about')}
+function openDialog(content){$('dialog').innerHTML=content;$('dialogOverlay').classList.add('show')}
+function closeDialog(){$('dialogOverlay').classList.remove('show')}
+function openProfile(){openDialog(`<h2>Edit profile</h2><label class="muted">Display name</label><input class="field" id="pName" value="${escapeHTML(profile.name||'')}" maxlength="35"><label class="muted">Email (optional)</label><input class="field" id="pEmail" type="email" value="${escapeHTML(profile.email||'')}"><p class="muted">This is a local demo profile, not an online account.</p><div class="dialog-actions"><button class="btn" onclick="closeDialog()">Cancel</button><button class="btn primary" onclick="saveProfile()">Save</button></div>`)}
+function saveProfile(){profile.name=$('pName').value.trim()||'Student';profile.email=$('pEmail').value.trim();saveAll();closeDialog()}
+function openAuth(){openDialog(`<h2>Demo Login / Sign up</h2><p class="muted">This only sets your local display profile. It does not create a secure online account. Do not enter a real password.</p><label class="muted">Your display name</label><input class="field" id="authName" placeholder="Enter your name" maxlength="35"><label class="muted">Email (optional)</label><input class="field" id="authEmail" type="email" placeholder="name@example.com"><div class="dialog-actions"><button class="btn" onclick="closeDialog()">Cancel</button><button class="btn primary" onclick="localSignIn()">Continue</button></div>`)}
+function localSignIn(){profile.name=$('authName').value.trim()||'Student';profile.email=$('authEmail').value.trim();saveAll();closeDialog()}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function newNote(){editingNote=null;noteEditor()}
+function noteEditor(n){openDialog(`<h2>${n?'Edit note':'New note'}</h2><div class="note-editor"><input class="field" id="nTitle" placeholder="Note title" value="${escapeHTML(n?.title||'')}"><select class="field" id="nFolder"><option ${n?.folder==='Personal'?'selected':''}>Personal</option><option ${n?.folder==='School'?'selected':''}>School</option><option ${n?.folder==='Ideas'?'selected':''}>Ideas</option><option ${n?.folder==='Projects'?'selected':''}>Projects</option></select><textarea id="nText" placeholder="Write your note...">${escapeHTML(n?.text||'')}</textarea></div><div class="dialog-actions"><button class="btn" onclick="closeDialog()">Cancel</button><button class="btn primary" onclick="saveNote()">Save note</button></div>`)}
+function saveNote(){let title=$('nTitle').value.trim(),text=$('nText').value.trim(),folder=$('nFolder').value;if(!title&&!text){alert('Write a title or some note text first.');return}if(editingNote){let n=notes.find(x=>x.id===editingNote);if(n)Object.assign(n,{title:title||'Untitled',text,folder,updated:Date.now()})}else notes.unshift({id:Date.now(),title:title||'Untitled',text,folder,updated:Date.now()});saveAll();renderNotes();closeDialog()}
+function renderNotes(){let folder=$('folderFilter').value,q=$('noteSearch').value.toLowerCase();let filtered=notes.filter(n=>(folder==='All'||n.folder===folder)&&((n.title+' '+n.text).toLowerCase().includes(q)));$('notesList').innerHTML=filtered.map(n=>`<div class="item"><div><b>${escapeHTML(n.title)}</b><br><small>${escapeHTML(n.folder)} · ${new Date(n.updated||n.id).toLocaleString()}<br>${escapeHTML(n.text.slice(0,100))}${n.text.length>100?'…':''}</small></div><div class="item-actions"><button class="tiny" onclick="editNote(${n.id})">Edit</button><button class="tiny" onclick="deleteNote(${n.id})">Delete</button></div></div>`).join('')||'<div class="empty">No notes here yet. Click “New note” to create one.</div>'}
+function editNote(id){editingNote=id;noteEditor(notes.find(n=>n.id===id))}
+function deleteNote(id){if(confirm('Delete this note?')){notes=notes.filter(n=>n.id!==id);saveAll();renderNotes()}}
+function calcAdd(v){calcExpr+=v;$('calcDisplay').value=calcExpr||'0'}
+function calcClear(){calcExpr='';$('calcDisplay').value='0'}
+function calcBack(){calcExpr=calcExpr.slice(0,-1);$('calcDisplay').value=calcExpr||'0'}
+function calcEvaluate(){try{let e=calcExpr.replace(/π/g,'pi').replace(/\^/g,'**').replace(/(\d+(?:\.\d+)?)%/g,'($1/100)').replace(/\bpi\b/g,'Math.PI').replace(/\be\b/g,'Math.E').replace(/\bsqrt\(/g,'Math.sqrt(').replace(/\bsin\(/g,'Math.sin(Math.PI/180*').replace(/\bcos\(/g,'Math.cos(Math.PI/180*').replace(/\btan\(/g,'Math.tan(Math.PI/180*').replace(/\blog\(/g,'Math.log10(').replace(/\bln\(/g,'Math.log(');if(!/^[0-9+\-*/().,\sA-Za-z*]+$/.test(e)||/[A-Za-z](?!ath\.)/.test(e.replace(/Math\./g,'')))throw Error('Invalid');let result=Function('"use strict";return ('+e+')')();if(!Number.isFinite(result))throw Error('Math error');let shown=Number(result.toPrecision(12)).toString();calcHistory.unshift({expr:calcExpr,result:shown});calcHistory=calcHistory.slice(0,30);saveAll();calcExpr=shown;$('calcDisplay').value=shown;renderHistory()}catch(err){$('calcDisplay').value='Error';setTimeout(()=>{$('calcDisplay').value=calcExpr||'0'},900)}}
+function renderHistory(){$('calcHistory').innerHTML=calcHistory.map((h,i)=>`<div class="item"><div><small>${escapeHTML(h.expr)} =</small><br><b>${escapeHTML(h.result)}</b></div><button class="tiny" onclick="useHistory(${i})">Use</button></div>`).join('')||'<div class="muted">Your calculations will appear here.</div>'}
+function useHistory(i){calcExpr=calcHistory[i].result;$('calcDisplay').value=calcExpr}
+function clearHistory(){if(confirm('Clear calculator history?')){calcHistory=[];saveAll();renderHistory()}}
+function openTodo(){openDialog(`<h2>To-do List</h2><div class="row"><input class="field" id="taskInput" placeholder="Add a task..." style="flex:1"><button class="btn primary" onclick="addTask()">Add</button></div><div class="list" id="taskList"></div>`);renderTasks()}
+function addTask(){let v=$('taskInput').value.trim();if(!v)return;tasks.unshift({id:Date.now(),text:v,done:false});saveAll();$('taskInput').value='';renderTasks()}
+function renderTasks(){let el=$('taskList');if(!el)return;el.innerHTML=tasks.map(t=>`<div class="item"><label><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})"> <span style="${t.done?'text-decoration:line-through;opacity:.6':''}">${escapeHTML(t.text)}</span></label><button class="tiny" onclick="deleteTask(${t.id})">Delete</button></div>`).join('')||'<div class="empty">No tasks yet.</div>'}
+function toggleTask(id){let t=tasks.find(x=>x.id===id);if(t)t.done=!t.done;saveAll();renderTasks()}
+function deleteTask(id){tasks=tasks.filter(t=>t.id!==id);saveAll();renderTasks()}
+function openClock(){openDialog(`<h2>Digital Clock</h2><div style="font-size:42px;font-weight:900;text-align:center;padding:25px" id="liveClock"></div><p class="muted" id="liveDate" style="text-align:center"></p>`);tickClock()}
+function tickClock(){if(!$('liveClock'))return;$('liveClock').textContent=new Date().toLocaleTimeString();$('liveDate').textContent=new Date().toDateString();setTimeout(tickClock,1000)}
+function openCounter(){openDialog(`<h2>Word Counter</h2><textarea id="countText" placeholder="Type or paste your text..." oninput="countWords()"></textarea><div class="stats"><div class="stat">Words<strong id="wc">0</strong></div><div class="stat">Characters<strong id="cc">0</strong></div><div class="stat">No spaces<strong id="sc">0</strong></div><div class="stat">Lines<strong id="lc">0</strong></div></div>`)}
+function countWords(){let s=$('countText').value;$('wc').textContent=(s.trim().match(/\S+/g)||[]).length;$('cc').textContent=s.length;$('sc').textContent=s.replace(/\s/g,'').length;$('lc').textContent=s? s.split(/\n/).length:0}
+function openConverter(){openDialog(`<h2>Unit Converter</h2><select class="field wide" id="convType"><option value="km-mi">Kilometres → Miles</option><option value="mi-km">Miles → Kilometres</option><option value="m-cm">Metres → Centimetres</option><option value="cm-m">Centimetres → Metres</option><option value="kg-g">Kilograms → Grams</option><option value="g-kg">Grams → Kilograms</option><option value="c-f">Celsius → Fahrenheit</option><option value="f-c">Fahrenheit → Celsius</option></select><input class="field wide" id="convInput" type="number" placeholder="Enter value" oninput="convertUnit()"><h2 id="convResult">Result: —</h2>`)}
+function convertUnit(){let v=Number($('convInput').value),t=$('convType').value;if($('convInput').value===''){$('convResult').textContent='Result: —';return}let f={'km-mi':v=>v*.621371,'mi-km':v=>v/ .621371,'m-cm':v=>v*100,'cm-m':v=>v/100,'kg-g':v=>v*1000,'g-kg':v=>v/1000,'c-f':v=>v*9/5+32,'f-c':v=>(v-32)*5/9};$('convResult').textContent='Result: '+Number(f[t](v).toFixed(6))}
+function openPassword(){openDialog(`<h2>Password Generator</h2><div class="row"><input class="field" id="pwLength" type="number" min="6" max="40" value="14" style="width:100px"><button class="btn primary" onclick="makePassword()">Generate</button></div><input class="field wide" id="pwOutput" readonly placeholder="Your generated password"><button class="btn" onclick="copyPassword()">Copy</button><p class="muted">Use this for practice only. Never share passwords with anyone.</p>`)}
+function makePassword(){let len=Math.min(40,Math.max(6,Number($('pwLength').value)||14)),chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*?';let a=new Uint32Array(len);crypto.getRandomValues(a);$('pwOutput').value=Array.from(a,x=>chars[x%chars.length]).join('')}
+function copyPassword(){if($('pwOutput').value)navigator.clipboard?.writeText($('pwOutput').value).then(()=>alert('Copied!')).catch(()=>alert('Select and copy the password manually.'))}
+function openQR(){openDialog(`<h2>QR Code Maker</h2><input class="field wide" id="qrText" placeholder="Enter text or website link"><button class="btn primary" onclick="makeQR()">Create QR</button><div id="qrResult" style="text-align:center;margin-top:15px"></div><p class="muted">QR creation needs an internet connection because it uses an online QR service.</p>`)}
+function makeQR(){let v=$('qrText').value.trim();if(!v){alert('Enter some text or a link first.');return}$('qrResult').innerHTML='<img alt="QR code" style="max-width:220px;background:white;padding:10px;border-radius:12px" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data='+encodeURIComponent(v)+'">'}
+function exportData(){let data={profile,notes,tasks,calcHistory};let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='smart-hub-backup.json';a.click();URL.revokeObjectURL(a.href)}
+function resetWorkspace(){if(confirm('This will delete your saved notes, tasks, profile and calculator history from this browser. Continue?')){['hubNotesV3','hubTasksV3','hubProfile','hubCalcHistory'].forEach(k=>localStorage.removeItem(k));notes=[];tasks=[];calcHistory=[];profile={name:'Student',email:''};saveAll();updateStats();alert('Workspace reset.');}}
+if(localStorage.getItem('hubTheme')==='light')document.body.classList.add('light');$('themeBtn').textContent=document.body.classList.contains('light')?'🌙':'☀';
+renderCards();updateStats();renderHistory();renderNotes();
+</script>
+</body>
+</html>
